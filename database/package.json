@@ -1,0 +1,23 @@
+{
+  "name": "@realestate/database",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "exports": "./src/index.js",
+  "scripts": {
+    "migrate:latest": "knex --knexfile knexfile.js migrate:latest",
+    "migrate:rollback": "knex --knexfile knexfile.js migrate:rollback",
+    "migrate:make": "knex --knexfile knexfile.js migrate:make",
+    "seed:run": "knex --knexfile knexfile.js seed:run",
+    "check": "node scripts/check-connection.js",
+    "test": "node --test",
+    "lint": "oxlint src scripts migrations seeds test knexfile.js",
+    "accounts": "node scripts/create-accounts.js",
+    "setup": "node scripts/setup-local.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "knex": "^3.1.0",
+    "mysql2": "^3.14.3"
+  }
+}

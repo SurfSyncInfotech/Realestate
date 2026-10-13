@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrated Indian courtyard residence</title>
+  <desc id="desc">A warm, architectural illustration of a contemporary residence around a leafy courtyard.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#d9d6c8"/><stop offset="1" stop-color="#eee6d5"/></linearGradient>
+    <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#d5c4a7"/><stop offset="1" stop-color="#bca88b"/></linearGradient>
+    <linearGradient id="shadow" x2="0" y2="1"><stop stop-color="#6a6252"/><stop offset="1" stop-color="#393c34"/></linearGradient>
+    <pattern id="grain" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="3" cy="7" r=".7" fill="#51493e" opacity=".13"/><circle cx="22" cy="18" r=".55" fill="#51493e" opacity=".11"/></pattern>
+  </defs>
+  <rect width="1200" height="900" fill="url(#sky)"/>
+  <circle cx="937" cy="167" r="93" fill="#eee7d8" opacity=".58"/>
+  <path d="M0 590Q210 520 420 567T842 554t358 5v341H0Z" fill="#aaa58c"/>
+  <path d="M82 383 600 236l511 147v402H82Z" fill="url(#wall)"/>
+  <path d="M52 387 600 215l553 172-27 39-526-159-524 159Z" fill="#716956"/>
+  <path d="M165 431 600 298l437 133v350H165Z" fill="#cfbea0"/>
+  <path d="M200 477 600 355l396 122v304H200Z" fill="#aa997d"/>
+  <path d="M267 489v223h118V451Zm273-83v306h118V370Zm270 78v234h118V412Z" fill="url(#shadow)"/>
+  <path d="M277 510h98v179h-98zm273-113h98v281h-98zm270 91h98v194h-98z" fill="#33372f"/>
+  <path d="M292 525h66v148h-66zm273-112h68v249h-68zm270 87h67v169h-67z" fill="#d8c5a4" opacity=".72"/>
+  <path d="M238 738h745v34H238z" fill="#766e5e"/>
+  <path d="M0 768q178-54 338 4t287-4q196-58 575 27v105H0Z" fill="#56584c"/>
+  <g fill="#405343">
+    <path d="M98 712q-61-94-24-209 29 100 19 150 19-108 90-155-18 105-67 157 61-69 131-72-51 91-148 91Z"/>
+    <path d="M982 720q-63-93-26-211 33 104 20 152 21-106 93-155-19 105-70 158 60-72 132-74-51 92-149 93Z"/>
+  </g>
+  <g fill="#8c8b67"><circle cx="94" cy="546" r="50"/><circle cx="151" cy="521" r="54"/><circle cx="1058" cy="547" r="54"/><circle cx="1110" cy="528" r="48"/></g>
+  <path d="M430 780q171-38 340 0v120H430Z" fill="#77715d"/>
+  <path d="M0 0h1200v900H0z" fill="url(#grain)"/>
+</svg>

@@ -1,0 +1,13 @@
+Estate & Co. local editorial imagery
+
+The following locally hosted photographs were sourced from Unsplash and are used as editorial atmosphere, not as images of properties offered by this marketplace:
+
+- hero-residence.jpg
+- apartment-lounge.jpg
+- villa-garden.jpg
+- modern-house.jpg
+- terrace-view.jpg
+
+The previous project note attributed the images to Unsplash but did not preserve the individual source-page URLs, photo IDs, or photographer names. Those details cannot be independently matched to these files from the retained project records. The general Unsplash license does not require attribution, but that alone does not establish the provenance of each file. Do not treat this note as proof of a specific photographer or asset license; restore verifiable per-file provenance or replace an asset before production use.
+
+These images are served locally and are not hotlinked. They provide editorial context only and do not depict verified or available marketplace inventory.

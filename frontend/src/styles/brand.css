@@ -1,0 +1,77 @@
+/* Brand mark and footer layout (loaded last) */
+.logo-mark { display: block; flex: none; filter: drop-shadow(0 4px 10px rgba(20, 41, 31, .28)); transition: transform .4s var(--ease); }
+.nb-brand:hover .logo-mark { transform: rotate(-4deg) scale(1.05); }
+.nb-brand { gap: 14px; }
+.nb-brand-text strong { font-size: 1.02rem; font-weight: 700; letter-spacing: .2em; color: var(--green-deep); }
+.nb-brand-text i { color: var(--gold); font-family: var(--serif); font-weight: 400; letter-spacing: 0; padding: 0 2px; }
+.nb-brand-text small { margin-top: 3px; font-size: .62rem; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
+.ft-wordmark .nb-brand-text strong { color: #fff; }
+.ft-wordmark .nb-brand-text small { color: var(--gold-soft); }
+@media (max-width: 640px) {
+  .logo-mark { width: 38px; height: 38px; }
+  .nb-brand-text strong { font-size: .86rem; letter-spacing: .15em; }
+}
+
+/* Footer: the call-to-action is a floating card on the page background that
+   overlaps the dark footer, so it never touches the content above it. */
+.ft { background: transparent; color: rgba(255, 255, 255, .78); }
+.ft-cta { background: var(--paper); border: 0; padding-top: clamp(64px, 8vw, 112px); position: relative; z-index: 2; }
+.ft-cta-inner {
+  position: relative;
+  margin-bottom: -76px;
+  padding: clamp(28px, 4vw, 52px) clamp(24px, 4vw, 56px);
+  border-radius: 30px;
+  border: 1px solid rgba(201, 165, 106, .4);
+  background: radial-gradient(circle at 90% 0%, rgba(201, 165, 106, .22), transparent 45%), linear-gradient(120deg, #24493d, #112219);
+  box-shadow: 0 34px 70px rgba(20, 41, 31, .3);
+}
+.ft-dark { background: var(--green-deep); padding-top: 76px; }
+@media (max-width: 1080px) {
+  .ft-cta-inner { margin-bottom: -60px; }
+  .ft-dark { padding-top: 60px; }
+}
+
+/* Final footer spacing: clear air above AND below the call-to-action card, so it
+   never touches the page content or the dark footer. */
+.ft-cta { padding-bottom: clamp(56px, 7vw, 96px); }
+.ft-cta-inner { margin-bottom: 0; }
+.ft-dark { padding-top: 0; }
+@media (max-width: 1080px) {
+  .ft-cta-inner { margin-bottom: 0; }
+  .ft-dark { padding-top: 0; }
+}
+.ft-main { padding-top: clamp(56px, 7vw, 88px); }
+
+/* Photo uploader (agent listing form) */
+.pu { display: grid; gap: 12px; }
+.pu-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.pu-grid li { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #e8e2d0; border: 2px solid transparent; }
+.pu-grid li.is-cover { border-color: var(--gold); }
+.pu-grid img { width: 100%; height: 100%; object-fit: cover; }
+.pu-badge { position: absolute; top: 8px; left: 8px; padding: 3px 10px; border-radius: 999px; background: var(--gold); color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.pu-actions { position: absolute; inset: auto 8px 8px 8px; display: flex; justify-content: flex-end; gap: 6px; opacity: 0; transition: opacity .2s ease; }
+.pu-grid li:hover .pu-actions, .pu-grid li:focus-within .pu-actions { opacity: 1; }
+.pu-actions button { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border: 0; border-radius: 999px; background: rgba(255,255,255,.95); color: var(--ink); font: inherit; font-size: .78rem; font-weight: 600; cursor: pointer; }
+.pu-actions button:last-child:hover { background: #fbeaea; color: #8a1f1f; }
+@media (hover: none) { .pu-actions { opacity: 1; } }
+.pu-add { width: 100%; height: 100%; display: grid; place-content: center; justify-items: center; gap: 4px; border: 2px dashed var(--line); border-radius: 16px; background: #fcfbf8; color: var(--green); font: inherit; font-weight: 600; cursor: pointer; transition: all .2s ease; }
+.pu-add:hover:not(:disabled) { border-color: var(--green); background: #f3efe3; }
+.pu-add small { color: var(--muted); font-weight: 400; font-size: .72rem; }
+.pu-add:disabled { cursor: wait; opacity: .7; }
+
+/* Status badges and row actions: keep badges a compact, vertically centred pill
+   instead of stretching to the height of the buttons beside them. */
+.ws-row-actions { align-items: center; }
+.ws-badge { display: inline-flex; align-items: center; justify-content: center; align-self: center; white-space: nowrap; line-height: 1; padding: 7px 12px; height: auto; }
+.ws-row-actions .ws-btn { display: inline-flex; align-items: center; gap: 6px; line-height: 1; padding: 11px 18px; }
+.th-visit-list li .ws-badge, .admin-message-top .ws-badge { align-self: center; }
+
+/* Refresh button feedback */
+.is-spinning { animation: ws-spin .8s linear infinite; }
+@keyframes ws-spin { to { transform: rotate(360deg); } }
+.ws-updated { align-self: center; color: rgba(255,255,255,.85); font-size: .85rem; }
+.ws-hero-actions .button:disabled { opacity: .75; cursor: progress; }
+
+.ws-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ws-search { min-width: 240px; padding: 11px 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font: inherit; }
+.ws-search:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 4px rgba(31,64,53,.12); }

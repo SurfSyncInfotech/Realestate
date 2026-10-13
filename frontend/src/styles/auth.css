@@ -1,0 +1,52 @@
+/* Sign-in / register (.au-*): image panel + form card */
+.au { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: calc(100svh - 84px); background: var(--paper); }
+.au-aside { position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: end; color: #fff; background: var(--green-deep); min-height: 420px; }
+.au-aside > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.au-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(10,22,16,.88), rgba(10,22,16,.25) 70%); }
+.au-aside-copy { padding: clamp(28px, 5vw, 64px); max-width: 560px; }
+.au-eyebrow { margin: 0 0 14px; color: var(--gold-soft); font-size: .8rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.au-aside h1 { margin: 0 0 16px; font-size: clamp(2.2rem, 4.6vw, 3.8rem); font-weight: 500; line-height: 1.08; letter-spacing: -.03em; }
+.au-aside h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--gold-soft); }
+.au-aside-copy p:not(.au-eyebrow) { margin: 0; color: rgba(255,255,255,.85); line-height: 1.7; font-size: 1.05rem; }
+
+.au-panel { display: grid; place-items: center; padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 48px); }
+.au-card { width: min(480px, 100%); display: grid; gap: 16px; }
+.au-flag { justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #dcefe4; color: #17553a; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.au-card h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 500; letter-spacing: -.02em; }
+.au-lead { margin: 0; color: var(--muted); line-height: 1.7; }
+.au-form { display: grid; gap: 16px; margin-top: 4px; }
+.au-form label { display: grid; gap: 6px; font-size: .9rem; font-weight: 500; }
+.au-form input, .au-form select { width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; font: inherit; font-size: 1rem; transition: border-color .2s, box-shadow .2s; }
+.au-form input:focus, .au-form select:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 4px rgba(31,64,53,.12); }
+.au-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.au-password { position: relative; display: block; }
+.au-password input { padding-right: 52px; }
+.au-password button { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+.au-password button:hover { color: var(--green); background: #efe9d9; }
+.au-submit { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; border: 0; border-radius: 999px; background: var(--green); color: #fff; font: inherit; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background .25s ease, transform .2s ease, box-shadow .25s ease; }
+.au-submit:hover:not(:disabled) { background: var(--green-deep); transform: translateY(-2px); box-shadow: 0 14px 28px rgba(20,41,31,.25); }
+.au-submit:disabled { opacity: .6; cursor: wait; }
+.au-switch, .au-other { margin: 0; color: var(--muted); }
+.au-switch a, .au-other a { color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.au-back { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .92rem; }
+.au-back:hover { color: var(--green); }
+.au-done { display: grid; justify-items: start; gap: 14px; padding: 22px; border-radius: 20px; background: #e6f4ec; border: 1px solid #bfe0cd; color: #17553a; }
+.au-done p { margin: 0; line-height: 1.7; }
+.au-done .button { border-radius: 999px; }
+
+/* admin portal: darker, more restrained */
+.au-admin .au-flag { background: #efe8d6; color: var(--ink); }
+
+@media (max-width: 900px) {
+  .au { grid-template-columns: 1fr; min-height: 0; }
+  .au-aside { min-height: 260px; }
+  .au-aside h1 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+  .au-aside-copy p:not(.au-eyebrow) { display: none; }
+  .au-aside-copy { padding: 24px 20px; }
+}
+@media (max-width: 480px) {
+  .au-row { grid-template-columns: 1fr; }
+}
+
+.au-notice { margin: 0; padding: 12px 16px; border-radius: 14px; background: #fdf0d2; border: 1px solid #f0d99a; color: #6b4a00; font-size: .92rem; line-height: 1.6; }
+.au-notice a { text-decoration: underline; font-weight: 600; }

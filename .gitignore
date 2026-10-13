@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+
+# Editor and operating-system files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated local sign-in credentials
+database/.local-credentials.txt
+**/.local-credentials.txt
+
+# Photos uploaded by agents (local storage)
+backend/uploads/
