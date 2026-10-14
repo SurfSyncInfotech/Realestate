@@ -116,4 +116,16 @@ server {
 
 ## Not included yet
 
-Online payments and subscription plans, OTP sign-in, password reset by email.
+Online payments and subscription plans, and OTP sign-in.
+
+## Password reset
+
+Users click **Forgot your password?** on any sign-in page. They get an emailed
+link (valid 1 hour, works once, signs them out everywhere). This needs SMTP
+(step 3). Without email, or if an admin is locked out, reset by hand:
+
+```bash
+npm run db:reset-password -- someone@example.com
+```
+
+The new random password is appended to `database/.local-credentials.txt`.

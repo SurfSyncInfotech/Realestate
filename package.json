@@ -22,7 +22,9 @@
     "db:seed": "npm run seed:run --workspace @realestate/database",
     "db:accounts": "npm run accounts --workspace @realestate/database",
     "db:setup": "npm run setup --workspace @realestate/database",
-    "start:prod": "npm run start --workspace backend"
+    "start:prod": "npm run start --workspace backend",
+    "db:reset-password": "npm run reset-password --workspace @realestate/database --",
+    "mail:setup": "npm run mail:setup --workspace backend"
   },
   "devDependencies": {
     "oxlint": "^1.81.0",

@@ -74,4 +74,4 @@ Phone, WhatsApp and address shown on Contact and in the footer come from
 ## Not built yet
 
 Payments and subscription plans, direct image upload (agents paste https image
-links for now), and password reset by email.
+links for now).

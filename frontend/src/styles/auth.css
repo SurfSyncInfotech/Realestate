@@ -50,3 +50,7 @@
 
 .au-notice { margin: 0; padding: 12px 16px; border-radius: 14px; background: #fdf0d2; border: 1px solid #f0d99a; color: #6b4a00; font-size: .92rem; line-height: 1.6; }
 .au-notice a { text-decoration: underline; font-weight: 600; }
+
+.au-forgot { justify-self: end; margin-top: -6px; color: var(--green); font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.au-forgot:hover { color: var(--gold); }
+a.au-submit { text-align: center; }

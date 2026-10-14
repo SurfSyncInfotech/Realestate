@@ -8,6 +8,7 @@ import { promisify } from "node:util";
 import { createDatabase } from "@realestate/database";
 
 const scrypt = promisify(scryptCallback);
+const RESET_TTL_MS = 60 * 60 * 1000;
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
 const SCRYPT_OPTIONS = { N: 16384, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 const DUMMY_PASSWORD_HASH = hashPassword(randomBytes(32).toString("base64url"));
@@ -234,6 +235,45 @@ export function createAuthRepository({
       }
     },
 
+    async createResetToken(userId, tokenHash, expiresAt) {
+      try {
+        await getDatabase().transaction(async (trx) => {
+          // Only the newest link works: retire earlier unused ones.
+          await trx("password_resets").where({ user_id: userId }).whereNull("used_at").update({ used_at: new Date() });
+          await trx("password_resets").insert({ user_id: userId, token_hash: tokenHash, expires_at: expiresAt });
+        });
+      } catch (error) {
+        throw mapDatabaseError(error);
+      }
+    },
+
+    async findResetByHash(tokenHash) {
+      try {
+        return await getDatabase()("password_resets as pr")
+          .join("users as u", "u.id", "pr.user_id")
+          .select("pr.id", "pr.user_id", "pr.expires_at", "pr.used_at", "u.status")
+          .where("pr.token_hash", tokenHash)
+          .first();
+      } catch (error) {
+        throw mapDatabaseError(error);
+      }
+    },
+
+    // Sets the new password, burns the token and signs the user out everywhere.
+    async completeReset({ resetId, userId, passwordHash }) {
+      try {
+        await getDatabase().transaction(async (trx) => {
+          const claimed = await trx("password_resets").where({ id: resetId }).whereNull("used_at").update({ used_at: new Date() });
+          if (claimed !== 1) throw new AuthError(400, "INVALID_RESET", "This reset link is invalid or has expired.");
+          await trx("users").where({ id: userId }).update({ password_hash: passwordHash, updated_at: new Date() });
+          await trx("sessions").where({ user_id: userId }).delete();
+        });
+      } catch (error) {
+        if (error instanceof AuthError) throw error;
+        throw mapDatabaseError(error);
+      }
+    },
+
     async findUserByEmail(email) {
       try {
         return await getDatabase()("users")
@@ -391,6 +431,26 @@ export function createAuthService({
       if (!role) throw new AuthError(404, "NOT_FOUND", "That account was not found.");
       if (role === "admin") throw new AuthError(400, "VALIDATION_ERROR", "Manage administrators from the Administrators section.");
       await repository.setUserStatus(userId, status);
+    },
+
+    /** Returns { token, user } for an eligible account, or null. Callers must answer identically either way. */
+    async requestPasswordReset(email) {
+      const user = await repository.findUserByEmail(email);
+      if (!user || !["active", "pending"].includes(user.status)) return null;
+      const token = randomBytes(32).toString("base64url");
+      const expiresAt = new Date(Date.now() + RESET_TTL_MS);
+      await repository.createResetToken(user.id, hashSessionToken(token), expiresAt);
+      return { token, expiresAt, user: { email: user.email, firstName: user.first_name } };
+    },
+
+    async resetPassword(token, password) {
+      const invalid = new AuthError(400, "INVALID_RESET", "This reset link is invalid or has expired. Please request a new one.");
+      const reset = await repository.findResetByHash(hashSessionToken(token));
+      if (!reset || reset.used_at || new Date(reset.expires_at) < new Date() || !["active", "pending"].includes(reset.status)) {
+        throw invalid;
+      }
+      const passwordHash = await hashPassword(password);
+      await repository.completeReset({ resetId: reset.id, userId: reset.user_id, passwordHash });
     },
 
     async login({ email, password }) {

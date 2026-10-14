@@ -104,6 +104,7 @@ test("all MySQL migrations compile reversible table statements without a live co
     "visit_schedules",
     "app_notifications",
     "lead_progress",
+    "password_resets",
   ]);
   const mysql = knex({
     client: "mysql2",

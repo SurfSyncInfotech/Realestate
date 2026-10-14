@@ -13,7 +13,8 @@
     "test": "node --test",
     "lint": "oxlint src scripts migrations seeds test knexfile.js",
     "accounts": "node scripts/create-accounts.js",
-    "setup": "node scripts/setup-local.js"
+    "setup": "node scripts/setup-local.js",
+    "reset-password": "node scripts/reset-password.js"
   },
   "dependencies": {
     "dotenv": "^16.6.1",

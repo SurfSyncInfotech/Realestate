@@ -21,6 +21,8 @@ const authApi = vi.hoisted(() => ({
   registerAccount: vi.fn(),
   registerPartner: vi.fn(),
   fetchPartners: vi.fn(),
+  requestPasswordReset: vi.fn(),
+  resetPassword: vi.fn(),
   fetchLeads: vi.fn(),
   fetchFollowUps: vi.fn(),
   fetchAnalytics: vi.fn(),
@@ -248,5 +250,41 @@ describe("authentication and role routing", () => {
     renderRoute("/dashboard/admin");
     expect(await screen.findByRole("heading", { name: /welcome back, asha/i })).toBeInTheDocument();
     expect(authApi.fetchAdminOverview).not.toHaveBeenCalled();
+  });
+});
+
+describe("password reset", () => {
+  it("shows a forgot-password link on sign-in and sends the request", async () => {
+    authApi.requestPasswordReset.mockResolvedValue({ message: "If an account exists for that email, we have sent a link." });
+    renderRoute("/sign-in");
+    fireEvent.click(await screen.findByRole("link", { name: /forgot your password/i }));
+    fireEvent.change(await screen.findByLabelText(/email address/i), { target: { value: "asha@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: /send reset link/i }));
+    expect(await screen.findByText(/if an account exists/i)).toBeInTheDocument();
+    expect(authApi.requestPasswordReset).toHaveBeenCalledWith("asha@example.com");
+  });
+
+  it("sets a new password from the emailed link", async () => {
+    authApi.resetPassword.mockResolvedValue({ message: "ok" });
+    const token = "A".repeat(43);
+    renderRoute(`/reset-password?token=${token}`);
+    fireEvent.change(await screen.findByLabelText(/^new password/i), { target: { value: "brand-new-pass-9" } });
+    fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: "different-pass-9" } });
+    fireEvent.click(screen.getByRole("button", { name: /change password/i }));
+    expect(authApi.resetPassword).not.toHaveBeenCalled();
+    fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: "brand-new-pass-9" } });
+    fireEvent.click(screen.getByRole("button", { name: /change password/i }));
+    await waitFor(() => expect(authApi.resetPassword).toHaveBeenCalledWith(token, "brand-new-pass-9"));
+    expect(await screen.findByText(/your password has been changed/i)).toBeInTheDocument();
+  });
+
+  it("explains an expired link and offers a new one", async () => {
+    authApi.resetPassword.mockRejectedValue({ response: { data: { error: { message: "This reset link is invalid or has expired." } } } });
+    renderRoute(`/reset-password?token=${"B".repeat(43)}`);
+    fireEvent.change(await screen.findByLabelText(/^new password/i), { target: { value: "brand-new-pass-9" } });
+    fireEvent.change(screen.getByLabelText(/confirm new password/i), { target: { value: "brand-new-pass-9" } });
+    fireEvent.click(screen.getByRole("button", { name: /change password/i }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(/expired/i);
+    expect(screen.getByRole("link", { name: /request a new link/i })).toBeInTheDocument();
   });
 });

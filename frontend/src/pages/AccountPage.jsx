@@ -179,6 +179,9 @@ export default function AccountPage({ portal = "customer", register = false }) {
                     </button>
                   </span>
                 </label>
+                {!isRegister && (
+                  <Link className="au-forgot" to="/forgot-password">Forgot your password?</Link>
+                )}
                 <button className="au-submit" type="submit" disabled={busy}>
                   {busy ? "Please wait…" : isRegister ? (portal === "agent" ? "Submit application" : "Create account") : "Sign in"}
                   <ArrowUpRight size={16} />

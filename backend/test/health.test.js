@@ -34,3 +34,9 @@ test("database health reports missing local configuration explicitly", async () 
     if (saved !== undefined) process.env.DB_PASSWORD = saved;
   }
 });
+
+test("the API root redirects to the website instead of showing a 404", async () => {
+  const response = await request(app).get("/");
+  assert.equal(response.status, 302);
+  assert.match(response.headers.location, /^https?:\/\//);
+});

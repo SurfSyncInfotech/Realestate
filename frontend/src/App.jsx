@@ -8,6 +8,7 @@ import UserDashboard from "./pages/UserDashboard.jsx";
 import AgentDashboard from "./pages/AgentDashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import { ArticlePage, CityPage } from "./pages/DetailPages.jsx";
+import { ForgotPasswordPage, ResetPasswordPage } from "./pages/PasswordPages.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import RequireRole from "./components/RequireRole.jsx";
 import RevealManager from "./hooks/RevealManager.jsx";
@@ -24,6 +25,8 @@ export default function App() {
         <Route path="/property/:id" element={<PropertyPage />} />
         <Route path="/sign-in" element={<AccountPage />} />
         <Route path="/register" element={<AccountPage register />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/agent" element={<AccountPage portal="agent" />} />
         <Route path="/agent/register" element={<AccountPage portal="agent" register />} />
         <Route path="/admin" element={<AccountPage portal="admin" />} />

@@ -11,6 +11,7 @@ import logger from "./config/logger.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { createAuthService } from "./services/auth.js";
 import { createAuthRouter } from "./routes/auth.js";
+import { createMailer } from "./services/mailer.js";
 import { createContactService } from "./services/contact.js";
 import { createContactRouter } from "./routes/contact.js";
 import { createRequireRole } from "./middleware/requireRole.js";
@@ -32,6 +33,7 @@ export function createApp({
   contactService = createContactService(),
   propertyService = createPropertyService(),
   engagementService = createEngagementService(),
+  mailer = createMailer(),
 } = {}) {
   const app = express();
 
@@ -93,7 +95,7 @@ export function createApp({
     legacyHeaders: false,
     message: { error: { code: "RATE_LIMITED", message: "Too many attempts. Please wait a few minutes and try again." } },
   });
-  app.use(["/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/register-partner", "/api/v1/contact", "/api/v1/leads"], (req, res, next) =>
+  app.use(["/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/register-partner", "/api/v1/auth/forgot-password", "/api/v1/auth/reset-password", "/api/v1/contact", "/api/v1/leads"], (req, res, next) =>
     req.method === "POST" ? sensitive(req, res, next) : next(),
   );
 
@@ -104,7 +106,7 @@ export function createApp({
   );
 
   app.use("/api/v1", healthRouter);
-  app.use("/api/v1/auth", createAuthRouter({ authService, engagementService }));
+  app.use("/api/v1/auth", createAuthRouter({ authService, engagementService, mailer, appUrl: env.APP_URL, logger }));
   app.use(
     "/api/v1",
     createContactRouter({
@@ -138,6 +140,13 @@ export function createApp({
       return res.sendFile(path.join(FRONTEND_DIST, "index.html"));
     });
   }
+
+  // The API has no page at "/". In development the website runs on its own port, so
+  // send visitors there; otherwise answer with a small status document.
+  app.get("/", (req, res) => {
+    if (!isProduction) return res.redirect(env.APP_URL);
+    return res.json({ name: "Estate & Co. API", status: "ok", health: "/api/v1/health" });
+  });
 
   app.use(notFoundHandler);
   app.use(errorHandler);
